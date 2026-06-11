@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>誰でも勝てるじゃんけん入門</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+    <style>
+
+         #game-logo img{
+            max-width: 100px; 
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+
+        #webcam {
+            display: none;
+        }
+
+        #timer{
+            font-size:  48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        #ai-hand{
+            font-size: 300px;
+            line-height: 1.2;
+        }
+
+        #camera-message{
+            font-size:24px ;
+            font-weight: bold;
+            color:red
+        }
+
+        button{
+            background: none;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+
+            display: inline-block;
+            min-width: 120px;
+            padding: 2px 16px;
+            font-size: 16px;
+            margin: 8px;
+            color: #ffffff;
+            background-color: #3b82f6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover{
+            background-color: #2563eb;
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body>
+    <div id="game-logo">
+        <img src="logo.png">
+    </div>
+
+    <h1>必ずじゃんけんに勝てるサイト</h1>
+    <h2>操作方法</h2>
+    <p>①　まず、「カメラ起動」を押してカメラを起動させてください。</p>
+    <p>②　赤い文字が出たら、３、２、１のカウントに<u>間に合うように</u>手を出してください</p>
+    <p>③　<b>勝ちます。</b>※終了ボタンを押すとカメラが閉じます。</p>
+    <h5>⚠️カメラに立てている指の本数がわかりやすいようにしてください。特にチョキは。</h5>
+    <hr>
+    
+    <button id="camera">カメラ起動</button>
+    <br>
+    <div id="camera-message"></div>
+    <button id="start">開始</button>
+    <div id="message"></div>
+    <div id="timer" ></div>
+    <div id="ai-hand"></div>
+    <button id="end">終了</button>
+    <button id="top">Topに戻る</button>
+
+    <video id="webcam" autoplay playsinline width="640" height="480"></video>
+    
+    <script>
+        const startBtn = document.getElementById('start');
+        const messageArea = document.getElementById('message');
+        const AIhandarea = document.getElementById('ai-hand');
+        const endBtn = document.getElementById('end');
+        const topBtn = document.getElementById('top');
+        const timerArea = document.getElementById('timer');
+        const cameraBtn = document.getElementById('camera');
+        const cameraArea = document.getElementById('camera-message');
+        const videoElement = document.getElementById('webcam');
+        const winSound = new Audio('levelup.mp3');
+        let userHand = "";
+
+        const hands = new Hands({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+        });
+
+        hands.setOptions({
+            maxNumHands: 1,          
+            modelComplexity: 1,      
+            minDetectionConfidence: 0.5, 
+            minTrackingConfidence: 0.5  
+        });
+
+        hands.onResults(onResults);
+
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                await hands.send({ image: videoElement });
+            },
+            width: 640,
+            height: 480
+        });
+
+        cameraBtn.addEventListener('click', () => {
+            console.log("カメラ起動");
+            camera.start();
+            cameraArea.textContent = 'カメラ起動しました！';
+        });
+
+        startBtn.addEventListener('click', () => {
+            console.log("開始しました！");
+            messageArea.textContent = '最初はグー！　じゃんけん...';
+            AIhandarea.textContent = '';
+
+            let count = 3;
+            timerArea.textContent = count;
+
+            const countdownTimer = setInterval(() => {
+                count = count - 1;
+
+                if (count > 0) {
+                    timerArea.textContent = count;
+                } else {
+                    messageArea.textContent = "ポン！！！";
+                    timerArea.textContent = "";
+
+                    clearInterval(countdownTimer);
+                    
+                    setTimeout(() => {
+                        if (userHand === "Gu") {
+                            AIhandarea.textContent = "✌️";
+                        } else if (userHand === "Pa") {
+                            AIhandarea.textContent = "✊";
+                        } else if (userHand === "Choki") {
+                            AIhandarea.textContent = "✋";
+                        }
+                    }, 80);
+
+                    setTimeout(()=>{
+                        winSound.play();
+                    })
+                }
+            }, 1000);
+        });
+
+        endBtn.addEventListener('click', () => {
+            console.log("おわり");
+            messageArea.textContent = 'おしまい';
+            AIhandarea.textContent = '';
+            camera.stop();
+            cameraArea.textContent = '';
+        });
+
+        topBtn.addEventListener('click', () => {
+            console.log("戻る");
+            camera.stop();
+            window.location.href = 'top.html';
+        });
+
+        function onResults(results) {
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                const landmarks = results.multiHandLandmarks[0];
+                userHand = analyzeHand(landmarks);
+            }
+        }
+
+        function analyzeHand(landmarks) {
+            const fingerTips = [8, 12, 16, 20];
+            const fingerBases = [6, 10, 14, 18];
+            let openFingers = 0; 
+
+            for (let i = 0; i < 4;) {
+                if (landmarks[fingerTips[i]].y < landmarks[fingerBases[i]].y) {
+                    openFingers = openFingers + 1;
+                }
+                i = i + 1;
+            }
+
+            if (openFingers >= 4) {
+                return "Pa";
+            } else if (openFingers >= 2) {
+                return "Choki";
+            } else {
+                return "Gu"; 
+            }
+        }
+    </script>
+</body>
+</html>

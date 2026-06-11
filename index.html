@@ -3,211 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>誰でも勝てるじゃんけん入門</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-
+    <title>Home</title>
     <style>
-
-         #game-logo img{
+      #game-logo img{
             max-width: 100px; 
             height: auto;
             display: block;
             margin: 10px 0;
         }
-
-        #webcam {
-            display: none;
+    
+    #introduction {
+            background-color: white;
+            padding: 24px 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #e0e0e0;
         }
 
-        #timer{
-            font-size:  48px;
-            font-weight: bold;
-            margin: 10px 0;
+        #introduction h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: #333;
+            font-size: 20px;
+            border-left: 4px solid #4dadf7;
+            padding-left: 10px;
         }
 
-        #ai-hand{
-            font-size: 300px;
-            line-height: 1.2;
+        #introduction p {
+            color: #4a4a4a;
+            line-height: 1.8;
+            font-size: 15px;
+            margin: 0;
+            text-align: justify;
         }
 
-        #camera-message{
-            font-size:24px ;
-            font-weight: bold;
-            color:red
-        }
-
-        button{
+         button{
             background: none;
             border: none;
             outline: none;
             -webkit-appearance: none;
             appearance: none;
 
-            display: inline-block;
-            min-width: 120px;
-            padding: 2px 16px;
+            padding:2px 15px;
             font-size: 16px;
             margin: 8px;
             color: #ffffff;
             background-color: #3b82f6;
+            border: none;
             border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s;
         }
 
         button:hover{
             background-color: #2563eb;
         }
-
-        button:active {
-            transform: scale(0.96);
-        }
     </style>
+
 </head>
 <body>
     <div id="game-logo">
         <img src="logo.png">
     </div>
-
     <h1>必ずじゃんけんに勝てるサイト</h1>
-    <h2>操作方法</h2>
-    <p>①　まず、「カメラ起動」を押してカメラを起動させてください。</p>
-    <p>②　赤い文字が出たら、３、２、１のカウントに<u>間に合うように</u>手を出してください</p>
-    <p>③　<b>勝ちます。</b>※終了ボタンを押すとカメラが閉じます。</p>
-    <h5>⚠️カメラに立てている指の本数がわかりやすいようにしてください。特にチョキは。</h5>
+    <p>このサイトでは、じゃんけんを通じて誰もが成功体験を味わうことができます。</p>
+    <button id="game-start">はじめる</button>
     <hr>
-    
-    <button id="camera">カメラ起動</button>
+
+    <div id="introduction">
+    <h3>じゃんけんのルール（Wikipediaより引用）</h3>
+    <p>
+        じゃんけん（漢字表記：石拳、両拳、雀拳）は、<b><u>3種類の指の出し方（グー・パー・チョキ）でいわゆる三すくみの関係を構成し、その強弱関係により勝敗を決める遊戯</u></b>である。
+        じゃんけんをする時、かけ声として主に「じゃんけんぽん」と言うことが多い、全員が同じ形を出して勝負が決まらなかった時、あるいは3人以上での勝負の時にグー、チョキ、パーの全てが出た場合は「あいこでほい」「あいこでしょ」と言って、もう一度やり直す。[1]
+        地域によって「じゃいけん」「いんじゃん」などさまざまな呼び方がある[2]。アメリカ合衆国などの英語圏の場合、多くは"Rock Paper Scissors"という呼称が使われているが、"Scissors Paper Stone"などと表現されることもある（表記上の揺れは数種類ある[注 1]。略号はRPS[3]）。
+        フランス語圏では多くの場合は"Pierre-papier-ciseaux"という呼称が使われているが、"chifoumi"という言葉も使われる。ドイツ語圏では"Schere, Stein, Papier"という言葉が使われていて、スペイン語圏ではスペインを含め、多くの国では"Piedra, papel o tijera"という言葉が使われているが[4]、メキシコでは"chin chan pú"や"pikachú"と呼ばれることもあり、コロンビアではよく"¡chim, pus pás!"と呼ばれ、ペルー、パラグアイ、一部の国々、そしてポルトガル語圏のブラジルでは日本語「じゃんけんぽん」から由来した"jan-ken-pon"と"jokenpô"[5][6]やhakembo[7]と呼ばれている。イタリアでは主に"Morra cinese"と呼ばれているが、"sasso-carta-forbice"や"carta-forbice-sasso"など呼ばれることもある。中華圏では主に「石头，剪刀，布」と呼ばれる。
+    </p>
     <br>
-    <div id="camera-message"></div>
-    <button id="start">開始</button>
-    <div id="message"></div>
-    <div id="timer" ></div>
-    <div id="ai-hand"></div>
-    <button id="end">終了</button>
-    <button id="top">Topに戻る</button>
+    <p>詳しくは<a href="https://ja.wikipedia.org/wiki/じゃんけん">こちら</a></p>
+    </div>
 
-    <video id="webcam" autoplay playsinline width="640" height="480"></video>
-    
+    <hr>
+    <h2>お知らせ</h2>
+    <p>最近、「必ずじゃんけんに勝てるサイト」を偽った怪しいサイトが報告されています。どうかお気をつけください。</p>
+    <hr>
+    <h2>⚠️注意事項</h2>
+    <p>・ブラウザはChromeを推奨。Firefoxも可。Safariはよく動かない時があります。</p>
+    <p>・カメラの情報は鯖には送信しておりません。ご安心ください。</p>
+
     <script>
-        const startBtn = document.getElementById('start');
-        const messageArea = document.getElementById('message');
-        const AIhandarea = document.getElementById('ai-hand');
-        const endBtn = document.getElementById('end');
-        const topBtn = document.getElementById('top');
-        const timerArea = document.getElementById('timer');
-        const cameraBtn = document.getElementById('camera');
-        const cameraArea = document.getElementById('camera-message');
-        const videoElement = document.getElementById('webcam');
-        const winSound = new Audio('levelup.mp3');
-        let userHand = "";
+        const gamestartBtn = document.getElementById('game-start');
 
-        const hands = new Hands({
-            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-        });
-
-        hands.setOptions({
-            maxNumHands: 1,          
-            modelComplexity: 1,      
-            minDetectionConfidence: 0.5, 
-            minTrackingConfidence: 0.5  
-        });
-
-        hands.onResults(onResults);
-
-        const camera = new Camera(videoElement, {
-            onFrame: async () => {
-                await hands.send({ image: videoElement });
-            },
-            width: 640,
-            height: 480
-        });
-
-        cameraBtn.addEventListener('click', () => {
-            console.log("カメラ起動");
-            camera.start();
-            cameraArea.textContent = 'カメラ起動しました！';
-        });
-
-        startBtn.addEventListener('click', () => {
-            console.log("開始しました！");
-            messageArea.textContent = '最初はグー！　じゃんけん...';
-            AIhandarea.textContent = '';
-
-            let count = 3;
-            timerArea.textContent = count;
-
-            const countdownTimer = setInterval(() => {
-                count = count - 1;
-
-                if (count > 0) {
-                    timerArea.textContent = count;
-                } else {
-                    messageArea.textContent = "ポン！！！";
-                    timerArea.textContent = "";
-
-                    clearInterval(countdownTimer);
-                    
-                    setTimeout(() => {
-                        if (userHand === "Gu") {
-                            AIhandarea.textContent = "✌️";
-                        } else if (userHand === "Pa") {
-                            AIhandarea.textContent = "✊";
-                        } else if (userHand === "Choki") {
-                            AIhandarea.textContent = "✋";
-                        }
-                    }, 80);
-
-                    setTimeout(()=>{
-                        winSound.play();
-                    })
-                }
-            }, 1000);
-        });
-
-        endBtn.addEventListener('click', () => {
-            console.log("おわり");
-            messageArea.textContent = 'おしまい';
-            AIhandarea.textContent = '';
-            camera.stop();
-            cameraArea.textContent = '';
-        });
-
-        topBtn.addEventListener('click', () => {
-            console.log("戻る");
-            camera.stop();
-            window.location.href = 'top.html';
-        });
-
-        function onResults(results) {
-            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-                const landmarks = results.multiHandLandmarks[0];
-                userHand = analyzeHand(landmarks);
-            }
-        }
-
-        function analyzeHand(landmarks) {
-            const fingerTips = [8, 12, 16, 20];
-            const fingerBases = [6, 10, 14, 18];
-            let openFingers = 0; 
-
-            for (let i = 0; i < 4;) {
-                if (landmarks[fingerTips[i]].y < landmarks[fingerBases[i]].y) {
-                    openFingers = openFingers + 1;
-                }
-                i = i + 1;
-            }
-
-            if (openFingers >= 4) {
-                return "Pa";
-            } else if (openFingers >= 2) {
-                return "Choki";
-            } else {
-                return "Gu"; 
-            }
-        }
+        gamestartBtn.addEventListener('click', ()=>{
+            console.log("ゲームスタート！");
+            window.location.href='index.html';
+        })
     </script>
 </body>
 </html>
