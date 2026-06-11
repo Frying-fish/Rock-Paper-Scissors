@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+      #game-logo img{
+            max-width: 100px; 
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+    
+    #introduction {
+            background-color: white;
+            padding: 24px 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #e0e0e0;
+        }
+
+        #introduction h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: #333;
+            font-size: 20px;
+            border-left: 4px solid #4dadf7;
+            padding-left: 10px;
+        }
+
+        #introduction p {
+            color: #4a4a4a;
+            line-height: 1.8;
+            font-size: 15px;
+            margin: 0;
+            text-align: justify;
+        }
+
+         button{
+            background: none;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+
+            padding:2px 15px;
+            font-size: 16px;
+            margin: 8px;
+            color: #ffffff;
+            background-color: #3b82f6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover{
+            background-color: #2563eb;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="game-logo">
+        <img src="logo.png">
+    </div>
+    <h1>必ずじゃんけんに勝てるサイト</h1>
+    <p>このサイトでは、じゃんけんを通じて誰もが成功体験を味わうことができます。</p>
+    <button id="game-start">はじめる</button>
+    <hr>
+
+    <div id="introduction">
+    <h3>じゃんけんのルール（Wikipediaより引用）</h3>
+    <p>
+        じゃんけん（漢字表記：石拳、両拳、雀拳）は、<b><u>3種類の指の出し方（グー・パー・チョキ）でいわゆる三すくみの関係を構成し、その強弱関係により勝敗を決める遊戯</u></b>である。
+        じゃんけんをする時、かけ声として主に「じゃんけんぽん」と言うことが多い、全員が同じ形を出して勝負が決まらなかった時、あるいは3人以上での勝負の時にグー、チョキ、パーの全てが出た場合は「あいこでほい」「あいこでしょ」と言って、もう一度やり直す。[1]
+        地域によって「じゃいけん」「いんじゃん」などさまざまな呼び方がある[2]。アメリカ合衆国などの英語圏の場合、多くは"Rock Paper Scissors"という呼称が使われているが、"Scissors Paper Stone"などと表現されることもある（表記上の揺れは数種類ある[注 1]。略号はRPS[3]）。
+        フランス語圏では多くの場合は"Pierre-papier-ciseaux"という呼称が使われているが、"chifoumi"という言葉も使われる。ドイツ語圏では"Schere, Stein, Papier"という言葉が使われていて、スペイン語圏ではスペインを含め、多くの国では"Piedra, papel o tijera"という言葉が使われているが[4]、メキシコでは"chin chan pú"や"pikachú"と呼ばれることもあり、コロンビアではよく"¡chim, pus pás!"と呼ばれ、ペルー、パラグアイ、一部の国々、そしてポルトガル語圏のブラジルでは日本語「じゃんけんぽん」から由来した"jan-ken-pon"と"jokenpô"[5][6]やhakembo[7]と呼ばれている。イタリアでは主に"Morra cinese"と呼ばれているが、"sasso-carta-forbice"や"carta-forbice-sasso"など呼ばれることもある。中華圏では主に「石头，剪刀，布」と呼ばれる。
+    </p>
+    <br>
+    <p>詳しくは<a href="https://ja.wikipedia.org/wiki/じゃんけん">こちら</a></p>
+    </div>
+
+    <hr>
+    <h2>お知らせ</h2>
+    <p>最近、「必ずじゃんけんに勝てるサイト」を偽った怪しいサイトが報告されています。どうかお気をつけください。</p>
+    <hr>
+    <h2>⚠️注意事項</h2>
+    <p>・ブラウザはChromeを推奨。Firefoxも可。Safariはよく動かない時があります。</p>
+    <p>・カメラの情報は鯖には送信しておりません。ご安心ください。</p>
+
+    <script>
+        const gamestartBtn = document.getElementById('game-start');
+
+        gamestartBtn.addEventListener('click', ()=>{
+            console.log("ゲームスタート！");
+            window.location.href='index.html';
+        })
+    </script>
+</body>
+</html>
